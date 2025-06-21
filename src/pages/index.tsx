@@ -17,6 +17,7 @@ import { createDelegatedRoutingV1HttpApiClient } from '@helia/delegated-routing-
 
 declare global {
   interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ethereum?: any;
   }
 }
@@ -119,6 +120,7 @@ export default function Home() {
         libp2pNode.stop();
       }
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
