@@ -218,7 +218,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-        <div style={{ padding: "0.5rem 0"}}><a href="https://github.com/dozyio/evm-bootstrap-contract">Contract</a> - <a href="https://github.com/dozyio/libp2p-evm-bootstrap-dapp">DApp</a> - <a href="https://github.com/dozyio/js-libp2p-evm-bootstrap">JS Libp2p Library</a> - <a href="https://github.com/dozyio/evm-bootstrap-demo">Demo source</a> <a href="https://dozy.io/evm-bootstrap-demo/">Demo site (this page)</a></div>
+        <div style={{ padding: "0.5rem 0"}}><a href="https://github.com/dozyio/evm-bootstrap-contract">Contract</a> - <a href="https://github.com/dozyio/libp2p-evm-bootstrap-dapp">DApp source</a> - <a href="https://dozy.io/libp2p-evm-bootstrap-dapp/">DApp site</a><a href="https://github.com/dozyio/js-libp2p-evm-bootstrap">JS Libp2p Library</a> - <a href="https://github.com/dozyio/evm-bootstrap-demo">Demo source</a> <a href="https://dozy.io/evm-bootstrap-demo/">Demo site (this page)</a></div>
 
         </main>
       </div>
