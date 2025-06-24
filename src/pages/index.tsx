@@ -31,6 +31,53 @@ export default function Home() {
   useEffect(() => {
     const client = createDelegatedRoutingV1HttpApiClient('https://delegated-ipfs.dev', { filterAddrs: ['webtransport', 'webrtc-direct', 'wss'] })
 
+    const initEthereum = async () => {
+      if (!window.ethereum) {
+        alert('Ethereum wallet not detected. Please install MetaMask or another Web3 wallet.');
+        return;
+      }
+
+      try {
+        // Request wallet connection
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+        // Attempt to switch to Sepolia
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: '0xaa36a7' }] // Sepolia
+        });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (switchError: any) {
+        // If Sepolia is not added, request to add it
+        if (switchError.code === 4902) {
+          try {
+            await window.ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [{
+                chainId: '0xaa36a7',
+                chainName: 'Sepolia Testnet',
+                rpcUrls: ['https://rpc.sepolia.org'] /* Add other fallback URLs if needed */,
+                nativeCurrency: {
+                  name: 'Sepolia ETH',
+                  symbol: 'ETH',
+                  decimals: 18
+                },
+                blockExplorerUrls: ['https://sepolia.etherscan.io']
+              }]
+            });
+          } catch (addError) {
+            console.error('Error adding Sepolia network:', addError);
+            alert('Please add the Sepolia network manually.');
+            return;
+          }
+        } else {
+          console.error('Error switching network:', switchError);
+          alert('Failed to switch to Sepolia network.');
+          return;
+        }
+      }
+    }
+
     const initLibp2p = async () => {
       try {
         // Create libp2p node
@@ -50,6 +97,9 @@ export default function Home() {
           connectionEncrypters: [
             noise()
           ],
+          connectionManager: {
+            maxConnections: 50
+          },
           streamMuxers: [
             yamux(),
           ],
@@ -112,7 +162,12 @@ export default function Home() {
       }
     };
 
-    initLibp2p();
+  const initialize = async () => {
+    await initEthereum();
+    await initLibp2p();
+  };
+
+  initialize();
 
     // Cleanup on unmount
     return () => {
